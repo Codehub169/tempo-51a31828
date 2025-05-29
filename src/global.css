@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-secondary text-base;
+    background-color: #F0EAD6; /* Soft Cream */
+    color: #333333; /* Deep Charcoal */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-primary;
+  }
+
+  /* Custom scrollbar for a more refined look - WebKit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F0EAD6; /* Soft Cream */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #A0A083; /* Muted Olive */
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8a8a70; /* Darker Muted Olive for hover */
+  }
+
+  /* Firefox scrollbar styles */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #A0A083 #F0EAD6; /* thumb and track */
+  }
+
+  /* Section specific min-height to ensure they take up viewport height, adjust as needed */
+  /* This is a general guide, individual sections might override this */
+  .section-container {
+    min-height: 100vh;
+    padding-left: 2rem; /* Equivalent to pl-8 */
+    padding-right: 2rem; /* Equivalent to pr-8 */
+    padding-top: 4rem; /* Equivalent to pt-16 */
+    padding-bottom: 4rem; /* Equivalent to pb-16 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 rounded-md font-medium transition-all duration-300 ease-in-out;
+  }
+  .btn-primary {
+    @apply bg-accent text-white hover:bg-opacity-80 shadow-md hover:shadow-lg;
+    /* Accent: #FF6B6B (Vibrant Coral) */
+  }
+  .btn-secondary {
+    @apply bg-muted-olive text-soft-cream hover:bg-opacity-80 shadow-md hover:shadow-lg;
+     /* Muted Olive: #A0A083, Soft Cream: #F0EAD6 */
+  }
+}
