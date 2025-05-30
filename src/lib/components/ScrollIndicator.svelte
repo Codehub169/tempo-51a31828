@@ -13,11 +13,9 @@
 
   // Function to handle smooth scroll to the next section
   function scrollToNextSection() {
-    // Assuming the next section has an ID like '#hueneu-story' or is the next sibling <section>
-    // This is a basic example; a more robust solution might involve passing target ID as prop
-    const heroSection = document.querySelector('#hero-section'); // Or a more specific parent
-    if (heroSection && heroSection.nextElementSibling) {
-      heroSection.nextElementSibling.scrollIntoView({ behavior: 'smooth' });
+    const nextSection = document.querySelector('#story'); // Target the ID of the "HueneuStorySection"
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
 </script>

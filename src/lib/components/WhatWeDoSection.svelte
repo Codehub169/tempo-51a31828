@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
 
@@ -36,19 +37,53 @@
   ];
 
   let elementInView = false;
+  let sectionElement; // Element to bind to for scroll detection
+
+  onMount(() => {
+    // Ensure code runs only in browser where IntersectionObserver is available
+    if (typeof IntersectionObserver === 'undefined') {
+      elementInView = true; // Fallback for older browsers or SSR
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            elementInView = true;
+            observer.unobserve(entry.target); // Stop observing once visible
+          }
+        });
+      },
+      {
+        root: null, // observing intersections relative to the viewport
+        rootMargin: '0px',
+        threshold: 0.15, // Trigger when 15% of the element is visible (approximates original top < windowHeight * 0.85)
+      }
+    );
+
+    if (sectionElement) {
+      observer.observe(sectionElement);
+    }
+
+    return () => {
+      // Cleanup: Disconnect observer when component is destroyed
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  });
 </script>
 
-<div class="min-h-screen flex flex-col items-center justify-center p-8 text-center">
-  <div use:elementInView>
-    {#if elementInView}
-      <h2 
-        class="font-primary text-3xl md:text-5xl lg:text-6xl mb-12 md:mb-16"
-        in:fly={{ y: 50, duration: 1000, easing: quintOut }}
-      >
-        What We Do
-      </h2>
-    {/if}
-  </div>
+<div bind:this={sectionElement} class="min-h-screen flex flex-col items-center justify-center p-8 text-center">
+  {#if elementInView}
+    <h2 
+      class="font-primary text-3xl md:text-5xl lg:text-6xl mb-12 md:mb-16"
+      in:fly={{ y: 50, duration: 1000, easing: quintOut }}
+    >
+      What We Do
+    </h2>
+  {/if}
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 max-w-5xl w-full">
     {#each services as service, i}
@@ -65,5 +100,3 @@
     {/each}
   </div>
 </div>
-
-<svelte:window on:scroll={() => elementInView = true} />

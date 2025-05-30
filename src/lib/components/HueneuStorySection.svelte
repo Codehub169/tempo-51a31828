@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
 
@@ -6,10 +7,48 @@
   // import WhoKnewElement from '$lib/components/WhoKnewElement.svelte';
 
   let elementInView = false;
+  let sectionElement; // Bound to the DOM element for IntersectionObserver
+
+  onMount(() => {
+    // Ensure code runs only in browser where IntersectionObserver is available
+    if (typeof IntersectionObserver === 'undefined') {
+      // Fallback for environments without IntersectionObserver (e.g., older browsers, SSR if not handled)
+      // Setting to true makes content visible by default in such cases.
+      elementInView = true;
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            elementInView = true;
+            observer.unobserve(entry.target); // Stop observing once visible
+          }
+        });
+      },
+      {
+        root: null, // observing intersections relative to the viewport
+        rootMargin: '0px',
+        threshold: 0.2, // Trigger when 20% of the element is visible
+      }
+    );
+
+    if (sectionElement) {
+      observer.observe(sectionElement);
+    }
+
+    return () => {
+      // Cleanup: Disconnect observer when component is destroyed
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  });
 </script>
 
-<div class="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden text-center">
-  <div use:elementInView class="max-w-3xl mx-auto">
+<div bind:this={sectionElement} id="story" class="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden text-center">
+  <div class="max-w-3xl mx-auto">
     {#if elementInView}
       <h2 
         class="font-primary text-3xl md:text-5xl lg:text-6xl mb-8"
@@ -42,5 +81,3 @@
     </p>
   {/if}
 </div>
-
-<svelte:window on:scroll={() => elementInView = true} />
