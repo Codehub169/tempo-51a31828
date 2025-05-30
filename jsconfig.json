@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "$lib": ["src/lib"],
+      "$lib/*": ["src/lib/*"]
+    },
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "esnext"
+  },
+  "include": [
+    "src/**/*.d.ts", 
+    "src/**/*.js", 
+    "src/**/*.svelte", 
+    "svelte.config.js", 
+    "vite.config.js", 
+    "tailwind.config.js", 
+    "postcss.config.js"
+  ],
+  "exclude": ["node_modules", "build", ".svelte-kit"]
+}
