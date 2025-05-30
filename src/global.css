@@ -8,14 +8,15 @@
   }
 
   body {
-    @apply font-secondary text-base;
+    /* @apply font-secondary text-base; */ /* Check tailwind.config.js for font-secondary if build fails */
+    @apply text-base;
     background-color: #F0EAD6; /* Soft Cream */
     color: #333333; /* Deep Charcoal */
     overflow-x: hidden; /* Prevent horizontal scroll */
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-primary;
+    /* @apply font-primary; */ /* Check tailwind.config.js for font-primary if build fails */
   }
 
   /* Custom scrollbar for a more refined look - WebKit browsers */
@@ -63,11 +64,11 @@
     @apply px-6 py-3 rounded-md font-medium transition-all duration-300 ease-in-out;
   }
   .btn-primary {
-    @apply bg-accent text-white hover:bg-opacity-80 shadow-md hover:shadow-lg;
+    @apply bg-vibrant-coral text-white hover:bg-opacity-80 shadow-md hover:shadow-lg;
     /* Accent: #FF6B6B (Vibrant Coral) */
   }
   .btn-secondary {
-    @apply bg-muted-olive text-soft-cream hover:bg-opacity-80 shadow-md hover:shadow-lg;
+    @apply bg-muted-olive text-soft-cream hover:bg-opacity-80 shadow-md hover:show-lg;
      /* Muted Olive: #A0A083, Soft Cream: #F0EAD6 */
   }
 }
